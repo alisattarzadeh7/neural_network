@@ -1,33 +1,29 @@
 import random
 
 x_train = [[0, 0], [0, 1], [1, 0], [1, 1]]
-y_train = [0,0,0,1]
-learning_ratio = 0.0001
-epoch = 100000
-w1 = 0
-w2 = 0
-b = 0
+y_train = [0, 0, 0, 1]
+learning_ratio = 0.3
+epoch = 100
+w1 = random.uniform(-0.2, 0.2)
+w2 = random.uniform(-0.2, 0.2)
+b = random.uniform(-0.2, 0.2)
+error = 1
 count = 0
-while count < epoch :
+while count < epoch and error != 0:
     error = 0
-    for array in x_train:
-        target = array[2]
+    for i, array in enumerate(x_train):
+        target = y_train[i]
         output = 0
-        prediction = w1 * array[0] + w2 * array[1] - b
-        if (prediction > 0):
+        pred = w1 * array[0] + w2 * array[1] - b
+        if (pred > 0):
             output = 1
-        else:
-            output = 0
 
         if (output != target):
             error += 1
-            w1 += learning_ratio * target * array[0]
-            w2 += learning_ratio * target * array[1]
-            b += target * learning_ratio
 
-        print("output " + str(output) + " target " + str(target))
-        print("ERROR " + str(error))
+        w1 += learning_ratio * (target - output) * array[0]
+        w2 += learning_ratio * (target - output) * array[1]
+        b += learning_ratio * target * (-1)
     count += 1
-print("COUNT " + str(count))
 print("ENDING ERROR" + str(error))
 print(" w1 " + str(w1) + " w2 " + str(w2) + " b " + str(b))
