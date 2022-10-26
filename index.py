@@ -1,6 +1,10 @@
 from PerceptronModel import Model
+
+# binary data for training model
 x_train = [[-1, -1], [-1, 1], [1, -1], [1, 1]]
-y_train = [-1, 1, 1, 1]
+
+# output to show gate and it already set to AND but can be changed to any
+y_train = [-1, -1, -1, 1]
 learning_ratio = 0.01
 epochs = 100
 
