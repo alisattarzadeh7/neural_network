@@ -11,5 +11,5 @@ epochs = 100
 model = Model(x_train, y_train, learning_ratio, epochs)
 modelProps = model.train()
 print(f"model : {modelProps}")
-result = model.predict([1, -1])
+result = model.predict([-1, -1])
 print(f"the answer is : {result}")
