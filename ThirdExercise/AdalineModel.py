@@ -19,11 +19,13 @@ class Model:
     def train(self):
         error = 1
         count = 0
-        while count < self.epochs and error != 0:
+        while count < self.epochs:
             for i, x in enumerate(self.x_train):
                 target = self.y_train[i]
                 y_in = self.b + (self.w1 * x[0] + self.w2 * x[1])
                 self.w1 += self.learning_ratio * (target - y_in) * x[0]
                 self.w2 += self.learning_ratio * (target - y_in) * x[1]
                 self.b += self.learning_ratio * (target - y_in)
+
+            count+=1
         return {'error':error,'weight1':self.w1,'weight2':self.w2,'bias':self.b}
