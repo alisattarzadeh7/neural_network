@@ -6,10 +6,10 @@ x_train = [[-1, -1], [-1, 1], [1, -1], [1, 1]]
 # output to show gate and it already set to AND but can be changed to any
 y_train = [-1, -1, -1, 1]
 learning_ratio = 0.01
-epochs = 100
+epochs = 100000
 
 model = Model(x_train, y_train, learning_ratio, epochs)
 modelProps = model.train()
 print(f"model : {modelProps}")
-result = model.predict([1, 1])
+result = model.predict([1, -1])
 print(f"the answer is : {result}")
