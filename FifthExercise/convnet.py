@@ -1,17 +1,107 @@
 from keras.applications import VGG16
+from keras.utils import img_to_array
+from keras.utils import load_img
+from keras.applications.vgg16 import preprocess_input
+from keras.applications.vgg16 import decode_predictions
+from keras.preprocessing import image as image_utils
+# import opencv as cv2
 from keras import optimizers
-
-conv_base = VGG16( weights='imagenet',
-                  include_top=False,
-                  input_shape=(150, 150, 3))
-
-conv_base.summary()
+import matplotlib.pyplot as plt
+from keras import models, layers
 import os
 import numpy as np
 
+model = VGG16(weights='imagenet')
 
-base_dir = './dataset/'
-test_dir = os.path.join(base_dir, 'test')
+model.summary()
+# model = VGG16(weights="imagenet")
+# load an image from file
+image = load_img('./dataset/IMG_20221203_193308.jpg', target_size=(224, 224))
+image = img_to_array(image)
+image = np.expand_dims(image, axis=0)
+image = preprocess_input(image)
+preds = model.predict(preprocess_input(image))
+print(decode_predictions(preds))
+
+# loop over the predictions and display the rank-5 predictions +
+# probabilities to our terminal
+# for (i, (imagenetID, label, prob)) in enumerate(P[0]):
+# 	print("{}. {}: {:.2f}%".format(i + 1, label, prob * 100))
+# # load the image via OpenCV, draw the top prediction on the image,
+# # and display the image to our screen
+# orig = cv2.imread(args["image"])
+# (imagenetID, label, prob) = P[0][0]
+# cv2.putText(orig, "Label: {}, {:.2f}%".format(label, prob * 100),
+# 	(10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+# cv2.imshow("Classification", orig)
+# cv2.waitKey(0)
+
+# # convert the image pixels to a numpy array
+# image = image.reshape((1, image.shape[0], image.shape[1], image.shape[2]))
+# print(image)
+# # print(image)
+# # prepare the image for the VGG model
+# image = preprocess_input(image)
+#
+#
+# test_path = "/var/www/html/neural_network/FifthExercise/dataset"
+# from keras.preprocessing.image import ImageDataGenerator
+#
+# #
+# # test_batches = ImageDataGenerator().flow_from_directory(test_path, target_size=(150, 150))
+# conv_base = VGG16()
+#
+# conv_base.summary()
+# conv_base.trainable = False
+# yhat = conv_base.predict(image)
+# label = decode_predictions(yhat)
+# # retrieve the most likely result, e.g. highest probability
+# label = label[0][0]
+# # print the classification
+# print('%s (%.2f%%)' % (label[1], label[2]*100))
+
+#
+# model = models.Sequential()
+# model.add(conv_base)
+# model.add(layers.Flatten())
+# model.add(layers.Dense(256, activation='relu'))
+# model.add(layers.Dense(1, activation='sigmoid'))
+# model.summary()
+#
+# history = model.fit_generator(
+#     train_generator,
+#     steps_per_epoch=100,
+#     epochs=30,
+#     validation_data=validation_generator,
+#     validation_steps=50,
+#     verbose=2)
+# train_datagen = ImageDataGenerator(
+#     rescale=1./255,
+#     rotation_range=40,
+#     width_shift_range=0.2,
+#     height_shift_range=0.2,
+#     shear_range=0.2,
+#     zoom_range=0.2,
+#     horizontal_flip=True,
+#     fill_mode='nearest')
+#
+# print('This is the number of trainable weights '
+#       'before freezing the conv base:', len(model.trainable_weights))
+#
+#
+#
+# base_dir = './dataset/'
+# test_dir = os.path.join(base_dir, 'test')
+#
+#
+# model.compile(loss='binary_crossentropy',
+#               optimizer=optimizers.RMSprop(lr=2e-5),
+#               metrics=['acc'])
+# print('This is the number of trainable weights '
+#       'after freezing the conv base:', len(model.trainable_weights))
+#
+
+
 ##
 # import os
 # import numpy as np
@@ -75,7 +165,6 @@ test_dir = os.path.join(base_dir, 'test')
 #
 #
 #
-import matplotlib.pyplot as plt
 #
 # acc = history.history['acc']
 # val_acc = history.history['val_acc']
@@ -100,41 +189,13 @@ import matplotlib.pyplot as plt
 #
 # exit(0)
 # #####################################################################
-from keras import models
-from keras import layers
-
-model = models.Sequential()
-model.add(conv_base)
-model.add(layers.Flatten())
-model.add(layers.Dense(256, activation='relu'))
-model.add(layers.Dense(1, activation='sigmoid'))
-model.summary()
 
 
-print('This is the number of trainable weights '
-      'before freezing the conv base:', len(model.trainable_weights))
-
-#%%
-
-conv_base.trainable = False
-
-#%%
-
-print('This is the number of trainable weights '
-      'after freezing the conv base:', len(model.trainable_weights))
+# %%
 
 
-from keras.preprocessing.image import ImageDataGenerator
+# %%
 
-train_datagen = ImageDataGenerator(
-    rescale=1./255,
-    rotation_range=40,
-    width_shift_range=0.2,
-    height_shift_range=0.2,
-    shear_range=0.2,
-    zoom_range=0.2,
-    horizontal_flip=True,
-    fill_mode='nearest')
 
 # Note that the validation data should not be augmented!
 # test_datagen = ImageDataGenerator(rescale=1./255)
@@ -154,17 +215,7 @@ train_datagen = ImageDataGenerator(
 #     batch_size=20,
 #     class_mode='binary')
 
-model.compile(loss='binary_crossentropy',
-              optimizer=optimizers.RMSprop(lr=2e-5),
-              metrics=['acc'])
-#
-history = model.fit_generator(
-    train_generator,
-    steps_per_epoch=100,
-    epochs=30,
-    validation_data=validation_generator,
-    validation_steps=50,
-    verbose=2)
+
 #
 #
 # acc = history.history['acc']
